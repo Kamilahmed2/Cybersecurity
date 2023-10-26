@@ -1,5 +1,4 @@
 import telnetlib
-import paramiko
 
 def establish_telnet_connection(host, username, password, enable_password, hostname):
     try:
@@ -32,47 +31,16 @@ def establish_telnet_connection(host, username, password, enable_password, hostn
         print(f"Telnet connection failed: {str(e)}")
         return False
 
-def establish_ssh_connection(host, username, password, enable_password, hostname):
-    try:
-        # Connect using SSH
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(host, username=username, password=password, allow_agent=False, look_for_keys=False)
-        ssh_shell = ssh.invoke_shell()
-
-        ssh_shell.send("enable\n")
-        ssh_shell.send(enable_password + "\n")
-
-        # Configure the device hostname
-        ssh_shell.send(f"configure terminal\n")
-        ssh_shell.send(f"hostname {hostname}\n")
-        ssh_shell.send("end\n")
-        ssh_shell.send("write memory\n")
-
-        # Save running configuration to a file
-        ssh_shell.send("show running-config\n")
-        output = ssh_shell.recv(65535).decode('utf-8')
-
-        with open(f"{hostname}_running_config.txt", "w") as config_file:
-            config_file.write(output)
-
-        ssh.close()
-        return True
-    except Exception as e:
-        print(f"SSH connection failed: {str(e)}")
-        return False
-
 if __name__ == "__main__":
-    host = "YOUR_DEVICE_IP"
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-    enable_password = input("Enter your enable password: ")
-    hostname = "NEW_HOSTNAME"
+    host = "192.168.56.101"
+    username = input('Enter a Username: ')
+    password = input('Enter a Password: ')
+    hostname = "R1"
 
-    # Establish Telnet Connection
-    if establish_telnet_connection(host, username, password, enable_password, hostname):
-        print("Telnet connection established and configuration updated.")
-
-    # Establish SSH Connection
-    if establish_ssh_connection(host, username, password, enable_password, hostname):
-        print("SSH connection established and configuration updated.")
+    if establish_telnet_connection(host, username, password, hostname):
+        print("---------------------------------------------------------------')
+        print("----- SUCESS! Connecting to:", username)
+        print("-----              Username:", username)
+        print("-----              Password:", Password)
+        print("----- New Hostname: ", hostname)
+        print("Running configuration saved to runninf_config.txt")
