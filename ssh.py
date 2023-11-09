@@ -1,4 +1,4 @@
-   import paramiko
+import paramiko
 
 
 # “Specify the parameters required to establish an SSH connection.”
