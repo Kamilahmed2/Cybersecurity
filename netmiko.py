@@ -24,9 +24,9 @@ def main():
     device_info = {
         'device_type': 'cisco_ios',
         'ip': '192.168.1.1',  # Replace with the actual IP address of your device
-        'username': 'your_username',
-        'password': 'your_password',
-        'secret': 'your_enable_password',
+        'username': 'prne',
+        'password': 'Cisco123!',
+        'secret': 'Class123!',
     }
 
     new_hostname = 'NewRouterHostname'
@@ -42,6 +42,12 @@ def main():
         print(f"Running configuration saved to {output_file}")
 
         net_connect.disconnect()
+        
+    print("----- SUCCESS! Connecting to:", device_info['ip'])
+    print("-----              Username:", device_info['username'])
+    print("-----              Password:", device_info['password'])
+    print("----- New Hostname: ", new_hostname)
+
 
 if __name__ == "__main__":
     main()
